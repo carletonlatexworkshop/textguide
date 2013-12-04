@@ -76,6 +76,24 @@
 % The booktabs package facilitates high-quality table formatting.
 \RequirePackage{booktabs}
 
+% The listings package handles typesetting nice code listings.
+% We set it up here with some nice options.
+\usepackage{listings}
+\lstset{
+  basicstyle=\footnotesize\ttfamily,
+  commentstyle=\color{gray},
+  numbers=left,
+  breaklines=true,
+  breakatwhitespace=true,
+  numberstyle=\footnotesize,
+  stepnumber=2,
+  showstringspaces=false,
+}
+
+% We also tell cleveref about the listings environment.
+\crefname{lstlisting}{listing}{listings}
+\Crefname{lstlisting}{Listing}{Listings}
+
 % The hyperref package sets up PDF hyperlinks and other fanciness.
 % WARNING: THIS MUST BE THE LAST PACKAGE LOAD
 \RequirePackage{hyperref}
