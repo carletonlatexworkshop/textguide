@@ -73,8 +73,6 @@
 \newtheorem{note}[theorem]{Note}
 \newtheorem*{note*}{Note}
 
-
-
 % The booktabs package facilitates high-quality table formatting.
 \RequirePackage{booktabs}
 
@@ -94,8 +92,8 @@
 
 % The listings package handles typesetting nice code listings.
 % We set it up here with some nice options.
-\usepackage{listings}
-\usepackage{xcolor}
+\RequirePackage{listings}
+\RequirePackage{xcolor}
 \lstset{
   basicstyle=\footnotesize\ttfamily,
   commentstyle=\color{gray},
@@ -106,6 +104,9 @@
   stepnumber=2,
   showstringspaces=false,
 }
+
+% The enumerate package is used to enhance enumerated lists
+\RequirePackage{enumerate}
 
 % The hyperref package sets up PDF hyperlinks and other fanciness.
 % WARNING: THIS MUST BE THE LAST PACKAGE LOAD
