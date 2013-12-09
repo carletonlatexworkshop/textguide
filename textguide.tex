@@ -1,8 +1,8 @@
 \documentclass{article}
 \usepackage{cctexexample}
 
-\title{}
-\author{}
+\title{Text typesetting guide}
+\author{Carleton College \LaTeX{} workshop}
 \date{}
 
 \newcommand*{\code}[1]{\texttt{#1}}
@@ -12,4 +12,597 @@
 \begin{document}
 \maketitle
 
+Although \LaTeX{} is best known for its mathematical typesetting, it is also very good at typesetting plain text.
+It offers a variety of features to simplify the task of writing complex documents.
+
+\section{Formatting commands}
+\label{s:format}
+\subsection{Typefaces}
+\label{s:typefaces}
+\LaTeX{} will output all text in roman (i.e.~upright) type by default, but of course it is able to change this to suit your needs.
+This is done using formatting commands, which tell \LaTeX{} to set specific text in specific types.
+For example, to produce the following text:
+\begin{quote}
+  \LaTeX{} is my \emph{favorite} document processor!
+\end{quote}
+you could use the following code:
+\begin{verbatim}
+\LaTeX{} is my \emph{favorite} document processor!
+\end{verbatim}
+
+The \code{\textbackslash{}emph\{\}} command used in the previous example is \emph{semantic}; it indicates that certain text should be \emph{emphasized}, and then allows \LaTeX{} to decide how to handle this.
+Whenever possible, you should leave these kinds of decisions to \LaTeX{}'s discretion; it will simplify your life and make your documents easier to modify later.
+
+However, there are many formatting commands available to you which explicitly tell \LaTeX{} how to format text.
+
+\begin{table}[htb]
+  \centering{}
+  \begin{tabular}{c c}
+    \toprule
+    Command & Effect \\ \midrule
+    \code{\textbackslash{}textnormal\{\}} & default text \\
+    \code{\textbackslash{}textrm\{\}}  & \textrm{roman} text \\
+    \code{\textbackslash{}textit\{\}} & \textit{italic} text \\
+    \code{\textbackslash{}textbf\{\}} & \textbf{bold} text \\
+    \code{\textbackslash{}textsc\{\}} & \textsc{smallcaps} text \\
+    \code{\textbackslash{}textsf\{\}} & \textsf{sans-serif} text \\
+    \code{\textbackslash{}texttt\{\}} & \texttt{monospace} text \\
+    \bottomrule
+  \end{tabular}
+  \caption{Text formatting commands in \LaTeX{}}
+  \label{tab:formcommands}
+\end{table}
+
+(Note: roman text is usually the default, so \code{\textbackslash{}textrm\{\}} and \code{\textbackslash{}textdefault\{\}} will have the same effect.)
+
+By default, \LaTeX{} does not support underlined text.
+This is a deliberate omission; underline is generally not used in professional typesetting, as it is basically just a paper-and-pencil substitute for italic and bold type.
+If you \emph{really} need to underline something, there are packages that provide this.
+
+\subsection{Quotes}
+\label{s:quotes}
+\LaTeX{} supports typesetting quotes in a variety of ways.
+Of course, the simplest of these is the \enquote{inline quote}, which is simply surrounded by quotation marks.
+
+\subsubsection{Inline quotes}
+\label{s:inlinequotes}
+Due to some complications with parsing, \LaTeX{} does \emph{not} support using the ordinary straight quote characters \code{\textquotedbl} and \code{\textquotesingle} on your keyboard.
+Instead, to achieve this output:
+\begin{quote}
+  \LaTeX{} supports ``double and `single' quotes''.
+\end{quote}
+you must type:
+\begin{verbatim}
+\LaTeX{} supports ``double and `single' quotes''.
+\end{verbatim}
+The opening quote symbols are the \enquote{backtick} key on your keyboard, which is usually found above \code{TAB}.
+
+But there is another way!
+Using the \code{csquote} package (which is loaded automatically by all the Carleton styles), you can describe quotes semantically, using the \code{\textbackslash{}enquote\{\}} command.
+Thus, you can achieve the same output as before:
+\begin{quote}
+  \LaTeX{} supports \enquote{double and \enquote{single} quotes}.
+\end{quote}
+by typing:
+\begin{verbatim}
+\LaTeX{} supports \enquote{double and \enquote{single} quotes}.
+\end{verbatim}
+
+This even supports alternative languages!
+For example, Magritte's \enquote{The treachery of images} famously notes (in French) that \foreignquote{french}{Ceci n'est pas une pipe}.
+To achieve this effect, I simply wrote
+\begin{verbatim}
+\foreignquote{french}{Ceci n'est pas une pipe}
+\end{verbatim}
+and let \LaTeX{} and \code{csquote} do the rest.
+
+\subsubsection{Block quotes}
+\label{s:blockquotes}
+\LaTeX{} also supports block quotes.
+I have used these throughout this document to illustrate command output.
+For example, to achieve this output:
+\begin{quote}
+  This is a block quote.
+\end{quote}
+I used this input:
+\begin{verbatim}
+\begin{quote}
+  This is a block quote.
+\end{quote}
+\end{verbatim}
+
+\code{csquote} also provides facilities for integrating citations into block quotes; check out its manual if you need this functionality.
+
+\subsection{Special symbols}
+\label{s:symbols}
+Quotation marks aren't the only symbol that \LaTeX{} treats a bit strangely.
+Several other examples are listed in \cref{tab:controlchars}.
+For each, we list a symbol, the effect of typing it directly, and the code that should be used to produce the given symbol in the final document.
+(For example, to obtain an ampersand (\&), per the table, we need to type \code{\textbackslash{}\&}.)
+
+\begin{table}[htb]
+  \centering{}
+  \begin{tabular}{c c c}
+    \toprule
+    Symbol & Use in \LaTeX{} & Code to print \\ \midrule
+    \& & Alignment tab & \code{\textbackslash{}\&} \\
+    \% & Comment lines & \code{\textbackslash{}\%} \\
+    \$ & Math mode & \code{\textbackslash{}\$} \\
+    \textbackslash{} & Commands & \code{\textbackslash{}textbackslash\{\}} \\
+    \{ and \} & Commands & \code{\textbackslash{}\{} and \code{\textbackslash{}\}} \\
+    \_ & Subscript & \code{\textbackslash{}\_} \\
+    \textasciicircum{} & Superscript & \code{\textbackslash{}textasciicircum\{\}} \\
+    \# & \TeX{} internals & \code{\textbackslash{}\#} \\
+    \textasciitilde{} & Non-breaking space & \code{\textbackslash{}textasciitilde\{\}} \\
+    \bottomrule
+  \end{tabular}
+  \caption{Special characters in \LaTeX{}}
+  \label{tab:controlchars}
+\end{table}
+
+There are also a few important commands to produce symbols which don't appear on a standard keyboard.
+These are listed in \cref{tab:nonkbsymbols}.
+
+\begin{table}[htb]
+  \centering{}
+  \begin{tabular}{c c}
+    \toprule
+    Symbol & Code to print \\ \midrule
+    \S  & \code{\textbackslash{}S} \\
+    \P  & \code{\textbackslash{}P} \\
+    \texttrademark{} & \code{\textbackslash{}texttrademark\{\}} \\
+    \copyright{} & \code{\textbackslash{}copyright\{\}} \\
+    \textdegree{} & \code{\textbackslash{}textdegree\{\}} \\
+    \bottomrule
+  \end{tabular}
+  \caption{Non-keyboard symbols in \LaTeX{}}
+  \label{tab:nonkbsymbols}
+\end{table}
+
+Additionally, \LaTeX{} supports a wide array of text accents, which are used for typesetting non-English languages.
+A full list of these would fill a page and is beyond the scope of this document, but we'll mention one important example in passing: \enquote{Erd\H{o}s} is typeset as \code{Erd\textbackslash{}H\{o\}s}, using a double acute accent (and \emph{not} a diaresis, as in \enquote{\"{o}}!).
+
+Finally, \LaTeX{} has support for several different kinds of dashes.
+\begin{itemize}
+\item
+  The ordinary hyphen is obtained using \code{-}.
+  This should be used to hyphenate words (but not at line breaks, since this is done automatically).
+  (If used in math mode, it automatically becomes the minus sign $-$ as appropriate.)
+
+\item
+  The en-dash is obtained using \code{--}.
+  This should be used for ranges of numbers and dates (such as \enquote{1861--1865}) and in certain compound hyphenated adjectives.
+
+\item
+  The em-dash is obtained using \code{---}.
+  This should be used to set off parentheticals---which can also be marked using actual parentheses (naturally)---and to set off the sources of quotations.
+  (\textbf{Important}: when em-dashes are used for parentheticals, they should \emph{not} be surrounded by spaces!)
+\end{itemize}
+
+
+\section{Document sectioning}
+\label{s:sectioning}
+\LaTeX{} provides great support for rich document structure.
+Your document can be divided into sections, subsections, and subsubsections, which may contain paragraphs and subparagraphs; in addition, the \code{memoir} class (which is the basis for the comps template) supports parts and chapters.
+(Paragraphs and subparagraphs are usually only used in legal documents like the U.S.~Code, where it is important to be able to refer to something as specific as a single sentence or clause.)
+
+To start a new document section, simply use the type of section as a command.
+For example, to start this section of the guide, I wrote the following:
+\begin{verbatim}
+\section{Document sectioning}
+\end{verbatim}
+\LaTeX{} took care of assigning the number \ref{s:sectioning} to this section.
+(In \cref{s:refs}, we'll talk about how to get \LaTeX{} to take care of references like these.)
+
+Nested layers of sections will be numbered and styled appropriately.
+For example, \cref{s:blockquotes} was set up simply by typing
+\begin{verbatim}
+\subsubsection{Block quotes}
+\end{verbatim}
+and letting \LaTeX{} sort out how to handle a subsubsection.
+
+\subsection*{Unnumbered sections}
+If you want to section your document without assigning numbers to the sections, you should use the \emph{starred} versions of the sectioning commands.
+For example, to start this subsection, I wrote the following:
+\begin{verbatim}
+\subsection*{Unnumbered sections}
+\end{verbatim}
+
+\section{Lists}
+\label{s:lists}
+\LaTeX{} also supports several kinds of lists.
+
+\subsection{Unordered lists}
+\label{s:unordlist}
+An \enquote{unordered list} is one in which the ordering of items is not important.
+These can be typeset in \LaTeX{} using the \code{itemize} environment.
+For example, this list of operating systems:
+\begin{itemize}
+\item Windows
+\item OSX
+\item Linux
+\end{itemize}
+is produced using the following code:
+\begin{verbatim}
+\begin{itemize}
+\item Windows
+\item OSX
+\item Linux
+\end{itemize}
+\end{verbatim}
+
+Note the use of the \code{\textbackslash{}item} command to introduce each item.
+
+\subsection{Ordered lists}
+\label{s:ordlist}
+An \enquote{ordered list} is one in which the ordering of items is important.
+These can be typeset in \LaTeX{} using the \code{enumerate} environment.
+For example, the following recipe for eating canned soup:
+\begin{enumerate}
+\item Open can.
+\item Pour soup into bowl.
+\item Use spoon to eat soup.
+\end{enumerate}
+is produced using the following code:
+\begin{verbatim}
+\begin{enumerate}
+\item Open can.
+\item Pour soup into bowl.
+\item Use spoon to eat soup.
+\end{enumerate}
+\end{verbatim}
+
+Note that we still use \code{\textbackslash{}item} to produce the items; the only difference between this and the unordered list in \cref{s:unordlist} is that we used the \code{enumerate} environment instead of \code{itemize}.
+
+Using the \code{enumerate} package (which is included by default in all the Carleton templates), the formatting of these ordered lists can be redesigned to meet your needs.
+For example, we can number a list using lowercase roman numerals in parentheses:
+\begin{enumerate}[(i)]
+\item An item
+\item Another item
+\end{enumerate}
+with the following code:
+\begin{verbatim}
+\begin{enumerate}[(i)]
+\item An item
+\item Another item
+\end{enumerate}
+\end{verbatim}
+
+\subsection{Description lists}
+\label{s:desclists}
+A third option is the \enquote{description list}, which is unordered but has a label for each item.
+This may be used, for example, to give a list of definitions or descriptions.
+For example, we can produce the following list of of mobile operating systems:
+\begin{description}
+\item[iOS] Produced by Apple.
+\item[Windows Mobile] Produced by Microsoft.
+\item[Android] Produced by Google and the Open Handset Alliance.
+\end{description}
+with the following code:
+\begin{verbatim}
+\begin{description}
+\item[iOS] Produced by Apple.
+\item[Windows Mobile] Produced by Microsoft.
+\item[Android] Produced by Google and the Open Handset Alliance.
+\end{description}
+\end{verbatim}
+
+\subsection{Nested lists}
+\label{s:nestedlists}
+Lists may be nested inside lists, simply by including one of the list environments as part of an \code{\textbackslash{}item} of another.
+\LaTeX{} will automatically use different numbering schemes or types of bullet points for different levels.
+For example, we can produce the following nested list:
+\begin{itemize}
+\item An item.
+\item Another item, with subitems.
+  \begin{enumerate}
+  \item First item.
+  \item Second item, with subitems.
+    \begin{enumerate}
+    \item First deep item.
+    \item Second deep item.
+    \end{enumerate}
+  \end{enumerate}
+\item Yet another item.
+\end{itemize}
+with the following code:
+\begin{verbatim}
+\begin{itemize}
+\item An item.
+\item Another item, with subitems.
+  \begin{enumerate}
+  \item First item.
+  \item Second item, with subitems.
+    \begin{enumerate}
+    \item First deep item.
+    \item Second deep item.
+    \end{enumerate}
+  \end{enumerate}
+\item Yet another item.
+\end{itemize}
+\end{verbatim}
+
+\section{Theorem-like environments}
+\label{s:thms}
+\LaTeX{} was designed from the ground up to be very good at typesetting mathematical documents.
+Other than typesetting equations (discussed in the Math Typesetting Guide), perhaps the most important feature of mathematical documents is that they have lots of theorems!
+Naturally, \LaTeX{} handles these nicely (with the help of the \code{amsthm} package, included in the Carleton styles by default).
+
+To typeset a theorem in \LaTeX{}, just use the \code{theorem} environment.
+For example, we can typeset the following famous theorem of number theory:
+\begin{theorem}[Euclid]
+  \label{thm:euclid}
+  There are infinitely many prime numbers.
+\end{theorem}
+using the following code:
+\begin{verbatim}
+\begin{theorem}[Euclid]
+  There are infinitely many prime numbers.
+\end{theorem}
+\end{verbatim}
+(The argument \code{[Euclid]} is optional; if you don't want to have such a citation on your theorem, just omit the square braces entirely.)
+
+You can create many kinds of \enquote{theorem-like} environments using the \code{\textbackslash{}newtheorem\{\}} command.
+However, for convenience, the Carleton styles set up several common ones for you: \code{theorem}, \code{corollary}, \code{lemma}, \code{propositon}, \code{observation}, \code{definition}, \code{remark}, \code{example}, and \code{note}.
+
+\subsection{Starred theorems}
+All of the theorem-like environments above also have starred equivalents (such as \code{theorem*}), which are not numbered.
+
+\subsection{Proofs}
+\label{s:proofs}
+\LaTeX{} and \code{amsthm} also provide the \code{proof} environment for typesetting proofs.
+
+For example, we can produce the following staple of math textbooks:
+\begin{proof}
+Obvious.
+\end{proof}
+using the following code:
+\begin{verbatim}
+\begin{proof}
+Obvious.
+\end{proof}
+\end{verbatim}
+
+Note that the QED symbol is automatically added by the \code{proof} environment---you don't need to do anything to get it!
+However, sometimes things will go wrong with the placement of this symbol, especially if the last line of your \code{proof} is an equation.
+To fix this, just put the \code{\textbackslash{}qedhere\{\}} command at the end of the equation.
+
+\section{References}
+\label{s:refs}
+As discussed in \cref{s:sectioning,s:lists,s:thms}, \LaTeX{} can automatically number your sections, lists, and theorems.
+Fortunately, it can also automatically number your cross-references, so you don't have to worry about things getting out of sync.
+
+The first step in setting up a cross-reference is to give the thing in question a name using the \code{\textbackslash{}label\{\}} command.
+For example, at the start of this section, I typed the following:
+\begin{verbatim}
+\section{References}
+\label{s:refs}
+\end{verbatim}
+The first line, of course, started the section, so \LaTeX{} assigned it a number.
+The second line then tells \LaTeX{} that I want to refer to this section with the code \code{s:refs}.
+The choice of label is completely up to you; I like to use prefixes that indicate what kind of thing the label points to (such as the \code{s:} before).
+
+Once you've labeled something, it's easy to set up a reference.
+To print the number, you merely need to use the \code{\textbackslash{}ref\{\}} command.
+For example, the following code:
+\begin{verbatim}
+See Section \ref{s:refs} for more.
+\end{verbatim}
+produces the following output:
+\begin{quote}
+  See Section \ref{s:refs} for more.
+\end{quote}
+
+This will continue to work even if you reorder your sections, change the numbering scheme (to use roman numerals, for example), or even change \cref{s:refs} to a subsection!
+
+\subsection{Automatic references with \code{cleveref}}
+\label{s:cleveref}
+Of course, if you were to change \cref{s:refs} to a subsection, the word \enquote{Section} in the previous example wouldn't change.
+This may sound like a small caveat, but when you're restructuring a large, complicated document like a comps paper, this can turn into quite a pain.
+Fortunately, there is a solution!
+
+The \code{cleveref} package (included in the Carleton styles by default) adds facilities for automatic \emph{naming} of references, as well as some other handy features.
+Using \code{cleveref}, we could obtain the same output as before using this code, instead:
+\begin{verbatim}
+See \cref{s:refs} for more.
+\end{verbatim}
+\code{cleveref} automatically adds the word \enquote{Section} for you.
+
+Additionally, if you want to refer to several things in your document at once, \code{cleveref} can automatically handle aggregating them into a nice form.
+For example, the following code:
+\begin{verbatim}
+As discussed in \cref{s:unordlist,s:ordlist,s:desclists,thm:euclid},
+\end{verbatim}
+produces the following output:
+\begin{quote}
+  As discussed in \cref{s:unordlist,s:ordlist,s:desclists,thm:euclid},
+\end{quote}
+which is much simplier and more maintainable than the equivalent reference written out by hand.
+
+\section{Tables and floats}
+\label{s:tablesandfloats}
+\subsection{Tables}
+\label{s:tables}
+\LaTeX{} also has support for producing aligned tables (like \cref{tab:formcommands,tab:controlchars,tab:nonkbsymbols} in this documents).
+With the help of the \code{booktabs} package (which the Carleton styles include by default), it can produce very high-quality output.
+
+To create a table, use the \code{tabular} environment.
+It takes one mandatory argument, which specifies the number and layout of the columns of the table.
+Each column may be either left-aligned (\code{l}), centered (\code{c}), or right-aligned (\code{r}); to describe the layout of your table, just give the appropriate letter for each column in order.
+You can then give the content of the table line-by-line, separating columns with ampersands (\code{\&}) and rows with line breaks (\code{\textbackslash{}\textbackslash{}}).
+To give the table a professional appearance, use the horizontal \enquote{rules} (lines) provided by \code{booktabs}: a \code{\textbackslash{}toprule} before the first line, a \code{\textbackslash{}midrule} after the last line of the header, and a \code{\textbackslash{}bottomrule} after the last line of the table.
+
+
+For example, the following code:
+\begin{verbatim}
+\begin{tabular}{c l r}
+  \toprule
+  Center & Left & Right \\
+  \midrule
+  1 & 2 & 3 \\
+  a & b & c \\
+  \bottomrule
+\end{tabular}
+\end{verbatim}
+produces the following output:
+\begin{quote}
+  \begin{tabular}{c l r}
+    \toprule
+    Center & Left & Right \\
+    \midrule
+    1 & 2 & 3 \\
+    a & b & c \\
+    \bottomrule
+  \end{tabular}
+\end{quote}
+
+\LaTeX{} does provide mechanisms for including vertical rules, but these are not commonly used by professional typographers and should usually be omitted.
+(They make tables look very busy, and don't actually help with readability!)
+
+\subsection{Floats}
+\label{s:floats}
+Once a table (or figure, or code listing) has been produced, \LaTeX{} has a variety of facilities for controlling their behavior as \enquote{floats}, which provide captions, centering, and placement.
+
+By the end of this section, we'll have turned the table from \cref{s:tables} into \cref{tab:example}.
+Pretty slick, eh?
+
+\begin{table}[htb]
+  \centering{}
+    \begin{tabular}{c l r}
+    \toprule
+    Center & Left & Right \\
+    \midrule
+    1 & 2 & 3 \\
+    a & b & c \\
+    \bottomrule
+  \end{tabular}
+  \caption{An example table}
+  \label{tab:example}
+\end{table}
+
+\subsubsection{Float placement}
+\label{s:floatplacement}
+To place a table in a float, enclose it in the \code{table} environment.
+(There are other float environments for other purposes; we'll talk about them later, but they work the same way.)
+This takes one optional argument, a \enquote{float specifier}, which tells \LaTeX{} how you would like it to place the float.
+This is a sequence, in order, of characters, each of which corresponds to something \LaTeX{} is \emph{allowed to try}; it will select the first of these which it can follow without messing things up too badly.
+The available specifiers are described in \cref{tab:floatspecs}.
+
+\begin{table}[htb]
+  \centering{}
+  \begin{tabular}{l l}
+    \toprule
+    Specifier & Effect \\
+    \midrule
+    \code{h} & Place the float near the place it appears in the text. \\
+    \code{t} & Place the float at the top of a page. \\
+    \code{b} & Place the float at the bottom of a page. \\
+    \code{p} & Place the float on a special page just for floats. \\
+    \bottomrule
+  \end{tabular}
+  \caption{Float specifiers in \LaTeX{}}
+  \label{tab:floatspecs}
+\end{table}
+
+If you're used to working with a WYSIWIG word processor, this may seem strange---why can't you just make \LaTeX{} put that table where you want?
+This is one of the cases where you'll be much happier if you just let \LaTeX{} do its thing; because of the way \LaTeX{} handles page formatting, it just isn't realistic to hard-code all the table locations.
+\LaTeX{} will do a good job of finding placements that make sense if you give it reasonable options; the specifier \code{htb} is a reasonable default that will work well in most cases.
+
+\subsubsection{Captions}
+\label{s:captions}
+Since floating tables may appears some distance from the text where they are introduced, they should have captions that explain their contents.
+This is easy to do in \LaTeX{}; just use the \code{\textbackslash{}caption\{\}} command inside the \code{table} environment.
+
+\subsubsection{Centering}
+\label{s:floatcenter}
+By default, the contents of the floating table will still be left-justified.
+This probably isn't what you want!
+To fix this, use the \code{\textbackslash{}centering\{\}} command at the beginning of the \code{table} environment.
+
+\subsubsection{Labels and references}
+\label{s:floatlabel}
+To label your float for cross-references, use the \code{\textbackslash{}label\{\}} command, just as for sections and theorems.
+
+\subsubsection{Bringing it together}
+Now, let's combine all of this to produce a full, working float table.
+To produce \cref{tab:example}, we use the following code:
+\begin{verbatim}
+\begin{table}[htb]
+  \centering{}
+    \begin{tabular}{c l r}
+    \toprule
+    Center & Left & Right \\
+    \midrule
+    1 & 2 & 3 \\
+    a & b & c \\
+    \bottomrule
+  \end{tabular}
+  \caption{An example table}
+  \label{tab:example}
+\end{table}
+\end{verbatim}
+
+Some important features of this code:
+\begin{itemize}
+\item
+  It uses the \code{htb} float specifier.
+
+\item
+  It uses the \code{\textbackslash{}centering\{\}} command to center the table on the page.
+
+\item
+  It uses the \code{c l r} column specifier.
+  Thus, the first column is centered, the second column is left-aligned, and the third column is right-aligned.
+
+\item
+  It uses \code{\textbackslash{}toprule}, \code{\textbackslash{}midrule}, and \code{\textbackslash{}bottomrule} to produce the horizontal rules.
+
+\item
+  It has a \code{\textbackslash{}caption\{\}}.
+
+\item
+  It has a \code{\textbackslash{}label\{\}}.
+\end{itemize}
+
+\subsection{Images}
+\label{s:images}
+\LaTeX{} also has facilities for including graphics in your documents.
+These are provided by the \code{graphicx} package, which is included by default in the Carleton styles.
+
+The core command for using graphics in a \LaTeX{} document is \code{\textbackslash{}includegraphics\{\}}.
+It takes one mandatory argument, which is the name of an image file to be included \emph{without its extension}.
+\textbf{Important}: \code{graphicx} only supports the JPEG, PNG, and PDF formats for included graphics.
+You must convert your image to one of these formats before using it!
+
+The \code{\textbackslash{}includegraphics\{\}} command also takes a variety of optional arguments.
+Perhaps most importantly, these can be used to specify the size of the image on the page.
+Setting either \code{height=X} or \code{width=X} will scale the image while keeping its shape (aspect ratio); setting both will force the aspect ratio.
+
+For example, if there is a file named \filename{logo.png} in the same directory as this \LaTeX{} file, the following command:
+\begin{verbatim}
+\includegraphics[width=.5cm]{logo}
+\end{verbatim}
+results in the following image:
+\includegraphics[width=.5cm]{logo}
+
+In practice, of course, most included images should be in floats.
+To do this, use the \code{figure} environment, which works just like the \code{table} environment from \cref{s:floats}.
+
+For example, the following code:
+\begin{verbatim}
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=2in]{logo}
+  \caption{The logo of the SVG file format}
+  \label{fig:svg}
+\end{figure}
+\end{verbatim}
+produces \cref{fig:svg}.
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=2in]{logo}
+  \caption{The logo of the SVG file format}
+  \label{fig:svg}
+\end{figure}
 \end{document}
