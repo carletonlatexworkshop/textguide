@@ -605,4 +605,43 @@ produces \cref{fig:svg}.
   \caption{The logo of the SVG file format}
   \label{fig:svg}
 \end{figure}
+
+\section{Defining commands}
+Often, when working with a document, you'll find yourself typing the same code over and over again to instruct \LaTeX{} how to format some important bit of text.
+For example, in a problem set for a complex analysis course, you will use the symbol $\mathbb{C}$ quite a lot.
+Similarly, in this document, we frequently typeset bits of code using the monospace font.
+We could just type \code{\textbackslash{}texttt\{\}} over and over, but this is un-semantic---it tells \LaTeX{} what to \emph{print}, rather than describing the content---and fragile---it's a huge pain if you decide to change how these things are formatted, because you'll need to replace many different instances.
+
+To overcome these difficulties, \LaTeX{} has facilities for defining your own commands.
+
+\subsection{Commands without arguments}
+The simplest kind of command to define in \LaTeX{} is one that does not take any arguments.
+For example, you might want to define a new command \code{\textbackslash{}CC} that automatically typesets $\mathbb{C}$ for you.
+This will make it easier to produce the symbol $\mathbb{C}$ where you need it, and will allow you to instantly change all instances of it to $\mathbf{C}$ if you suddenly decide you prefer that.
+
+To do this, go to the \enquote{preamble} of your document (i.e.~the part after \code{\textbackslash{}documentclass\{\}} and before \code{\textbackslash{}begin\{document\}}).
+The basic command you'll need is \code{\textbackslash{}newcommand\{\}}, which, naturally, tells \LaTeX{} about a new command.
+To create a new command which defines \code{\textbackslash{}CC} to produce \code{\$\textbackslash{}mathbb\{C\}\$}, add the following code:
+\begin{verbatim}
+\newcommand{\CC}{\ensuremath{\mathbb{C}}}
+\end{verbatim}
+The first argument, \code{\textbackslash{}CC}, is the name of the new command.
+The second argument is the code that will be substituted whenever \code{\textbackslash{}CC} appears in the document.
+(The \code{\textbackslash{}ensuremath\{\}} command tells \LaTeX{} to be sure that the \code{\textbackslash{}mathbb\{C\}} is set in math mode; this allows you to use the command in either text or math mode.)
+
+\subsection{Commands with arguments}
+You can also define your own commands that take arguments.
+For example, for all the code snippets in this document, we'd like to define a \code{\textbackslash{}code\{\}} command which typesets its argument as code (using the monospace typeface).
+To do this, add the following code to your preamble:
+\begin{verbatim}
+\newcommand{\code}[1]{\texttt{#1}}
+\end{verbatim}
+Just like before, the first argument (\code{\textbackslash{}code}) is the name of the new command.
+Immediately after this, though, comes something new---an \emph{optional argument} \code{[1]} which tells \LaTeX{} that the command will accept one argument.
+The command definition \code{\textbackslash{}texttt\{\#1\}} will then be filled in by substituting the argument of \code{\textbackslash{}code\{\}} for the \code{\#} in the definition.
+
+For example, if we type \code{\textbackslash{}code\{test\}}, \LaTeX{} transforms this into \code{\textbackslash{}texttt\{test\}}, which is then rendered in the document as \enquote{\code{test}}.
+
+You can define commands that take up to nine arguments, which will be given names \code{\#1}, \code{\#2}, \dots, \code{\#9}.
+
 \end{document}
