@@ -606,6 +606,18 @@ produces \cref{fig:svg}.
   \label{fig:svg}
 \end{figure}
 
+\subsection{Inserting space}
+\label{s:space}
+Occasionally, you'll need to force \LaTeX{} to include extra vertical space in your document.
+The most common use case for this is to include a blank area to hand-draw a diagram.
+This is easily done with the \code{\textbackslash{}vspace*\{\}} command.
+For example, to add a vertical blank space one inch high, we simply call
+\begin{verbatim}
+\vspace*{1in}
+\end{verbatim}
+Which results in the desired space:
+\vspace*{1in}
+
 \section{Defining commands}
 Often, when working with a document, you'll find yourself typing the same code over and over again to instruct \LaTeX{} how to format some important bit of text.
 For example, in a problem set for a complex analysis course, you will use the symbol $\mathbb{C}$ quite a lot.
